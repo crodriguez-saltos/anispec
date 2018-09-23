@@ -4,14 +4,16 @@
 \alias{anispec}
 \title{Create moving spectrogram}
 \usage{
-anispec(sound_file, framerate, output)
+anispec(sound_file, framerate, output, ...)
 }
 \arguments{
 \item{sound_file}{Name of sound file}
 
 \item{framerate}{Frame rate per second}
 
-\item{output}{Output file, without the extension. All output will be *.avi.}
+\item{output}{Output file, without the extension. All output will be *.avi}
+
+\item{...}{Arguments passed to seewave::spectro()}
 }
 \description{
 Create moving spectrogram

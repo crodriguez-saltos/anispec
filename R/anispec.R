@@ -3,12 +3,13 @@
 #' @keywords spectrogram, animation
 #' @param sound_file Name of sound file
 #' @param framerate Frame rate per second
-#' @param output Output file, without the extension. All output will be *.avi.
+#' @param output Output file, without the extension. All output will be *.avi
+#' @param ... Arguments passed to seewave::spectro()
 #' @details Currently, only WAVE files are allowed as input. Only AVI files are
 #' produced as output.
 #' @export
 
-anispec <- function(sound_file, framerate, output){
+anispec <- function(sound_file, framerate, output, ...){
   # Open sound file----
   sound <- tuneR::readWave(filename = sound_file)
 
@@ -21,7 +22,7 @@ anispec <- function(sound_file, framerate, output){
   # Create a function that generates the frames.
   create.frames <- function(){
     for (i in 1:nframes){
-      seewave::spectro(sound, palette= seewave::reverse.gray.colors.1)
+      seewave::spectro(sound, palette= seewave::reverse.gray.colors.1, ...)
       abline(v = i / framerate)
     }
   }
