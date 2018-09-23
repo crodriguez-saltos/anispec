@@ -21,7 +21,7 @@ anispec <- function(sound_file, framerate, output){
   # Create a function that generates the frames.
   create.frames <- function(){
     for (i in 1:nframes){
-      seewave::spectro(sound, palette= reverse.gray.colors.1)
+      seewave::spectro(sound, palette= seewave::reverse.gray.colors.1)
       abline(v = i / framerate)
     }
   }
