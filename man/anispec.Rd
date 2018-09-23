@@ -19,7 +19,7 @@ anispec(sound_file, framerate, output, ...)
 Create moving spectrogram
 }
 \details{
-Currently, only WAVE files are allowed as input. Only AVI files are
+Currently, only MP3 files are allowed as input. Only AVI files are
 produced as output.
 }
 \keyword{animation}

@@ -5,13 +5,13 @@
 #' @param framerate Frame rate per second
 #' @param output Output file, without the extension. All output will be *.avi
 #' @param ... Arguments passed to seewave::spectro()
-#' @details Currently, only WAVE files are allowed as input. Only AVI files are
+#' @details Currently, only MP3 files are allowed as input. Only AVI files are
 #' produced as output.
 #' @export
 
 anispec <- function(sound_file, framerate, output, ...){
   # Open sound file----
-  sound <- tuneR::readWave(filename = sound_file)
+  sound <- tuneR::readMP3(filename = sound_file)
 
   # Generate frames----
   # Calculate the number of frames needed for the movie, based on a given
