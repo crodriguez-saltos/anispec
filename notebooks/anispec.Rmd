@@ -1,0 +1,86 @@
+# Create moving spectrogram
+## Import audiofile
+Here, we will use the `tico` file from `seewave`.
+
+```{r}
+library(seewave)
+data(tico)
+sound <- tico
+```
+
+## Create spectrogram
+
+```{r spectro}
+spectro(sound, palette= reverse.gray.colors.1)
+```
+
+## Export frames
+We will calculate the number of frames needed for the movie, based on a given framerate (in fps).
+
+```{r}
+framerate <- 24
+duration <- duration(sound)
+nframes <- floor(duration * framerate)
+```
+
+For each frame, we will save a plot in a temporary folder with a vertical bar moving across the spectrum from frame to frame.
+
+First, we will do a test with the bar.
+
+```{r}
+barpos <- 1 * framerate  # in frames
+spectro(sound, palette= reverse.gray.colors.1)
+abline(v = barpos / framerate)
+```
+
+Now we create a function to create all the frames.
+
+```{r}
+create.frames <- function(){
+  for (i in 1:nframes){
+    spectro(sound, palette= reverse.gray.colors.1)
+    abline(v = i / framerate)
+  }
+}
+```
+
+## Compile movie
+We will compile the movie using the `animation` package.
+
+First, we need to export the sound file.
+
+```{r}
+if (!dir.exists("./cache")){
+  dir.create("./cache")
+}
+sound_file <- file.path("./cache", "tico.wav")
+savewav(wave = sound, filename = sound_file)
+```
+
+
+Now we compile the video.
+
+```{r}
+library(animation)
+
+ani.options(interval= 1/framerate)
+output <- "./cache/tico"
+intermediate_output <- paste(output, "mp4", sep= ".")
+saveVideo(expr = create.frames(), video.name = intermediate_output)
+```
+
+Finally, we add the audio.
+
+```{r}
+if (file.exists(final_output)){
+  print("Output file already exists. Cannot overwrite it.")
+}else{
+  final_output <- paste(output, "avi", sep= ".")
+  system2(command= "ffmpeg", args = paste(
+    "-i", intermediate_output, "-i", sound_file, "-r", framerate, 
+    "-codec copy -shortest", final_output
+  ))
+}
+file.remove(intermediate_output)
+```
+
